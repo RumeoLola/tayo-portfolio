@@ -1,0 +1,101 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Tayo Omolola | Tech Portfolio SPA | CompTIA A+ | Computer Science Undergraduate" />
+  <title>Tayo Omolola | Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- App Shell -->
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <!-- Logo + Name -->
+        <a class="brand" href="#/home" aria-label="Go to home">
+          <img class="brand-logo" src="assets/img/tayologo.jpeg" alt="Tayo Omolola logo" />
+          <span class="brand-text">Tayo Omolola</span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="burger" aria-hidden="true"></span>
+          </button>
+
+          <div class="nav-menu" id="navMenu">
+            <a data-route="home" href="#/home">Home</a>
+            <a data-route="about" href="#/about">About</a>
+            <a data-route="skills" href="#/skills">Skills</a>
+            <a data-route="certification" href="#/certification">Certification</a>
+            <a data-route="projects" href="#/projects">Projects</a>
+            <a data-route="experience" href="#/experience">Experience</a>
+
+            <!-- NEW: Resume download button -->
+            <a class="btn btn-small btn-ghost" id="resumeBtnNav" href="assets/resume/Tayo_Omolola_Resume.pdf" download>
+              Resume
+            </a>
+
+            <a data-route="contact" href="#/contact" class="btn btn-small">Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main SPA Outlet -->
+    <main class="site-main">
+      <div class="container">
+        <div id="app" aria-live="polite"></div>
+      </div>
+    </main>
+
+    <!-- Footer pinned -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-left">
+          <span class="footer-brand">Tayo Omolola</span>
+          <span class="footer-sep" aria-hidden="true">•</span>
+          <span class="muted">Tech Portfolio</span>
+        </div>
+        <div class="footer-right muted">
+          <span id="yearText"></span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- NEW: Global lightbox modal for gallery -->
+    <div class="modal" id="lightbox" aria-hidden="true" role="dialog" aria-label="Project screenshot viewer">
+      <div class="modal-overlay" data-close="true"></div>
+
+      <div class="modal-card" role="document">
+        <div class="modal-top">
+          <div class="modal-title">
+            <span id="lightboxTitle">Screenshot</span>
+            <span class="modal-sub muted" id="lightboxCounter"></span>
+          </div>
+
+          <button class="icon-btn" id="lightboxClose" aria-label="Close viewer">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <button class="nav-btn" id="lightboxPrev" aria-label="Previous screenshot">‹</button>
+          <img id="lightboxImg" alt="Project screenshot" />
+          <button class="nav-btn" id="lightboxNext" aria-label="Next screenshot">›</button>
+        </div>
+
+        <div class="modal-thumbs" id="lightboxThumbs" aria-label="Screenshot thumbnails"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

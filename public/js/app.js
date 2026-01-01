@@ -1,5 +1,5 @@
 // app.js
-// Portfolio SPA (Hash Router) + Resume opens in new tab + Project Screenshot Gallery (Lightbox)
+// Portfolio SPA (Hash Router) + Resume opens in a NEW TAB + Project Screenshot Gallery (Lightbox)
 // ===============================================================================
 
 const APP = document.getElementById("app");
@@ -14,20 +14,28 @@ const CONTACT = {
 
 // IMPORTANT: Your actual file name includes a space.
 // Keep the %20 encoding for the space:
-const RESUME_URL = "assets/resume/Tayo%20Resume.pdf";
+const RESUME_URL = ".assets/resume/Tayo%20Resume.pdf";
 
+// ------------------------- CERTIFICATES -------------------------
+// FIX: encode spaces as %20 and + as %2B
 const CERTIFICATES = [
   {
     title: "CompTIA A+ Certificate",
     subtitle: "Credential verification document",
-    file: "assets/certificates/CompTIA A+ ce certificate.pdf", // note: + must be encoded as %2B
-  }
+    file: "assets/certificates/CompTIA%20A%2B%20ce%20certificate.pdf",
+  },
 ];
 
 // ------------------------- PROJECT DATA -------------------------
+// Types:
+// - web      => GitHub + Live Site (new tab)
+// - unity    => GitHub (optional) + itch.io profile (new tab)
+// - java     => GitHub (optional) + screenshots/lightbox (no live demo)
+// - embedded => GitHub + Demo Video (new tab)
 const PROJECTS = [
   {
     id: "trip-cost",
+    type: "java",
     title: "Java GUI Trip Cost Calculator",
     category: ["java"],
     tech: ["Java", "Swing", "OOP"],
@@ -38,7 +46,9 @@ const PROJECTS = [
       "Implemented immutable calculation logic for consistent results",
       "Supported multiple unit-conversion pathways accurately",
     ],
-    links: { github: "#", demo: "#" },
+    links: {
+      github: "#", // replace when ready
+    },
     screenshots: [
       "assets/img/projects/trip-cost/1.png",
       "assets/img/projects/trip-cost/2.png",
@@ -47,6 +57,7 @@ const PROJECTS = [
   },
   {
     id: "web-store",
+    type: "web",
     title: "Single-Page Web Store (SPA)",
     category: ["web"],
     tech: ["JavaScript", "HTML", "CSS", "Bootstrap", "Local Storage"],
@@ -57,15 +68,14 @@ const PROJECTS = [
       "Implemented cart logic with persistent browser storage",
       "Focused on responsive layout and clear user flow",
     ],
-    links: { github: "#", demo: "#" },
-    screenshots: [
-      "assets/img/projects/web-store/1.png",
-      "assets/img/projects/web-store/2.png",
-      "assets/img/projects/web-store/3.png",
-    ],
+    links: {
+      github: "#",  // replace when ready
+      liveUrl: "https://feran-1e4f4.web.app/#home", // put your deployed website link here
+    },
   },
   {
     id: "irrigation",
+    type: "embedded",
     title: "Embedded Irrigation Automation System",
     category: ["python", "embedded"],
     tech: ["Python", "Raspberry Pi", "Arduino"],
@@ -76,7 +86,10 @@ const PROJECTS = [
       "Integrated microcontroller signals into a reliable workflow",
       "Emphasized system stability and repeatable configuration",
     ],
-    links: { github: "#", demo: "#" },
+    links: {
+      github: "https://github.com/RumeoLola/smart-garden",
+      videoUrl: "#", // put your demo video link here (YouTube or Drive view link)
+    },
     screenshots: [
       "assets/img/projects/irrigation/1.png",
       "assets/img/projects/irrigation/2.png",
@@ -85,17 +98,21 @@ const PROJECTS = [
   },
   {
     id: "unity",
+    type: "unity",
     title: "Unity Game Development Prototypes",
     category: ["game"],
-    tech: ["C#", "Unity"],
+    tech: ["C#", "Unity", "itch.io"],
     summary:
-      "2D prototypes focused on player movement, collisions, and reusable gameplay logic built through iterative development.",
+      "A collection of Unity prototypes published on itch.io, demonstrating gameplay mechanics, iteration, and deployment workflows.",
     bullets: [
       "Implemented movement and interaction logic using C# scripts",
       "Designed reusable components to reduce repetition",
       "Improved debugging and iteration workflow inside an engine environment",
     ],
-    links: { github: "#", demo: "#" },
+    links: {
+      github: "#", // optional
+      itchUrl: "https://small-man-of-renown.itch.io/",
+    },
     screenshots: [
       "assets/img/projects/unity/1.png",
       "assets/img/projects/unity/2.png",
@@ -139,40 +156,7 @@ function render() {
   setActiveNav(route);
   routes[route]();
   closeMobileNav();
-
-  // Keep SPA page at top when switching routes
   window.scrollTo({ top: 0, behavior: "instant" });
-
-  // Bind route-specific buttons after content is injected
-  bindResumeButtons();
-}
-
-// ------------------------- RESUME (OPEN NEW TAB) -------------------------
-function openResume() {
-  // Opens PDF in a new tab/window
-  window.open(RESUME_URL, "_blank", "noopener,noreferrer");
-}
-
-function bindResumeButtons() {
-  // Navbar button (exists on every route if index.html has it)
-  const navBtn = document.getElementById("resumeBtnNav");
-
-  // Buttons only on some routes
-  const homeBtn = document.getElementById("resumeBtnHome");
-  const homeBtnAlt = document.getElementById("resumeBtnHomeAlt");
-  const certBtn = document.getElementById("resumeBtnCert");
-  const contactBtn = document.getElementById("resumeBtnContact");
-
-  const handler = (e) => {
-    e?.preventDefault?.();
-    openResume();
-  };
-
-  navBtn?.addEventListener("click", handler);
-  homeBtn?.addEventListener("click", handler);
-  homeBtnAlt?.addEventListener("click", handler);
-  certBtn?.addEventListener("click", handler);
-  contactBtn?.addEventListener("click", handler);
 }
 
 // ------------------------- PAGES -------------------------
@@ -184,11 +168,12 @@ function renderHome() {
           <p class="kicker">Computer Technician • CompTIA A+ • Computer Science Undergraduate (UMGC)</p>
           <h1 class="hero-title">Building reliable systems, practical tools, and clean user experiences.</h1>
           <p class="hero-sub">
-            I am an entry-level technology professional with hands-on experience in device support, troubleshooting, and software development. This portfolio highlights applied projects in Java GUI development, web application design, and embedded automation, reflecting a strong foundation in technical fundamentals and real-world problem solving.
+            I am an entry-level technology professional with hands-on experience in device support, troubleshooting, and software development.
+            This portfolio highlights applied projects in Java GUI development, web application design, and embedded automation, reflecting a strong foundation in technical fundamentals and real-world problem solving.
           </p>
           <div class="hero-cta">
             <a class="btn" href="#/projects">View Projects</a>
-            <button class="btn btn-ghost" id="resumeBtnHome" type="button">View Resume</button>
+            <a class="btn btn-ghost" href="${RESUME_URL}" target="_blank" rel="noopener noreferrer">View Resume</a>
             <a class="btn btn-ghost" href="#/contact">Contact</a>
           </div>
         </div>
@@ -217,7 +202,7 @@ function renderHome() {
           <p><strong>Availability:</strong> <span class="muted">Open to tech roles</span></p>
           <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
             <a class="btn btn-small" href="#/contact">Contact</a>
-            <button class="btn btn-small btn-ghost" id="resumeBtnHomeAlt" type="button">View Resume</button>
+            <a class="btn btn-small btn-ghost" href="${RESUME_URL}" target="_blank" rel="noopener noreferrer">View Resume</a>
           </div>
         </div>
 
@@ -251,8 +236,8 @@ function renderAbout() {
             I have worked on device troubleshooting workflows and built projects demonstrating GUI development, web application structure, automation,
             and hardware-software integration.
           </p>
-          <p>
-            His goal is to contribute to teams that value reliability, thoughtful documentation, and user-centered implementation.
+          <p class="muted">
+            Goal: contribute to teams that value reliability, thoughtful documentation, and user-centered implementation.
           </p>
         </div>
 
@@ -320,11 +305,13 @@ function renderCertification() {
 
       <div class="panel">
         <h2>Certificates</h2>
-        <p class="muted">Feel free to explore my certifications for a detailed view of the technical credentials and training that support my professional qualifications.</p>
+        <p class="muted">
+          Feel free to explore my certifications for a detailed view of the technical credentials and training that support my professional qualifications.
+        </p>
       </div>
 
       <div class="cert-grid">
-        ${CERTIFICATES.map((c, idx) => `
+        ${CERTIFICATES.map((c) => `
           <article class="panel cert-card">
             <div class="cert-head">
               <div>
@@ -333,7 +320,7 @@ function renderCertification() {
               </div>
 
               <div class="cert-actions">
-                <a class="btn btn-small btn-ghost" href="${escapeHtml(c.file)}" target="_blank" rel="noreferrer">
+                <a class="btn btn-small btn-ghost" href="${escapeHtml(c.file)}" target="_blank" rel="noopener noreferrer">
                   Open in New Tab
                 </a>
               </div>
@@ -395,7 +382,7 @@ function renderExperience() {
     <section class="page">
       <div class="page-head">
         <h1>Experience</h1>
-        <p>Operational experience that supports performance in IT environments.</p>
+        <p>Operational and project-based experience supporting performance in technology environments.</p>
       </div>
 
       <div class="grid-2">
@@ -413,14 +400,42 @@ function renderExperience() {
         </div>
 
         <div class="panel">
+          <h2>Web Development Projects</h2>
+          <p class="muted">
+            Designed and implemented responsive web applications using modern front-end technologies and structured client-side logic.
+          </p>
+          <ul class="muted" style="margin:0; padding-left:18px;">
+            <li>Built single-page applications using JavaScript, HTML, and CSS</li>
+            <li>Implemented dynamic UI rendering, navigation, and state handling</li>
+            <li>Used browser storage to persist application data across sessions</li>
+            <li>Focused on usability, accessibility, and clean visual layout</li>
+            <li>Deployed and tested web projects using modern hosting platforms</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:24px;">
+        <div class="panel">
+          <h2>Embedded & Automation Projects</h2>
+          <p class="muted">
+            Developed automation systems integrating software logic with physical hardware components.
+          </p>
+          <ul class="muted" style="margin:0; padding-left:18px;">
+            <li>Created Python scripts for device coordination and automation workflows</li>
+            <li>Integrated Raspberry Pi and Arduino for sensor-based control systems</li>
+            <li>Emphasized reliability, repeatability, and maintainable configuration</li>
+          </ul>
+        </div>
+
+        <div class="panel">
           <h2>Computer Science Undergraduate (UMGC)</h2>
           <p class="muted">
-            Coursework and project work in programming, object-oriented design, and building practical applications with clear structure.
+            Coursework and hands-on projects in programming, object-oriented design, and application development.
           </p>
           <ul class="muted" style="margin:0; padding-left:18px;">
             <li>Java GUI applications with immutable logic classes</li>
-            <li>Web application development with structured state handling</li>
-            <li>Embedded automation projects using Python and microcontrollers</li>
+            <li>Web application development with structured SPA patterns</li>
+            <li>Systems thinking across software and hardware integration</li>
           </ul>
         </div>
       </div>
@@ -445,10 +460,10 @@ function renderContact() {
             <a class="panel" style="padding:14px;" href="mailto:${escapeHtml(CONTACT.email)}">
               <strong>Email</strong><div class="muted">${escapeHtml(CONTACT.email)}</div>
             </a>
-            <a class="panel" style="padding:14px;" href="${escapeHtml(CONTACT.linkedin)}" target="_blank" rel="noreferrer">
+            <a class="panel" style="padding:14px;" href="${escapeHtml(CONTACT.linkedin)}" target="_blank" rel="noopener noreferrer">
               <strong>LinkedIn</strong><div class="muted">${escapeHtml(CONTACT.linkedin.replace("https://",""))}</div>
             </a>
-            <a class="panel" style="padding:14px;" href="${escapeHtml(CONTACT.github)}" target="_blank" rel="noreferrer">
+            <a class="panel" style="padding:14px;" href="${escapeHtml(CONTACT.github)}" target="_blank" rel="noopener noreferrer">
               <strong>GitHub</strong><div class="muted">${escapeHtml(CONTACT.github.replace("https://",""))}</div>
             </a>
             <div class="panel" style="padding:14px;">
@@ -458,7 +473,7 @@ function renderContact() {
 
           <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
             <button class="btn btn-small" id="copyEmailBtn" type="button">Copy Email</button>
-            <button class="btn btn-small btn-ghost" id="resumeBtnContact" type="button">View Resume</button>
+            <a class="btn btn-small btn-ghost" href="${RESUME_URL}" target="_blank" rel="noopener noreferrer">View Resume</a>
             <a class="btn btn-small btn-ghost" href="#/projects">View Projects</a>
           </div>
         </div>
@@ -492,38 +507,61 @@ function renderContact() {
 
 // ------------------------- PROJECTS GRID + FILTERS -------------------------
 function createProjectCard(p) {
-  const galleryHtml =
-    p.screenshots && p.screenshots.length
-      ? `
+  const screenshots = Array.isArray(p.screenshots) ? p.screenshots : [];
+  const type = (p.type || "").toLowerCase();
+  const links = p.links || {};
+
+  const safeAnchor = (href, label, cls = "btn btn-small") => {
+    if (!href || href === "#") return "";
+    return `<a class="${cls}" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+  };
+
+  const githubBtn = safeAnchor(links.github, "GitHub", "btn btn-small btn-ghost");
+  const liveSiteBtn = type === "web" ? safeAnchor(links.liveUrl, "Live Site", "btn btn-small") : "";
+  const itchBtn = type === "unity" ? safeAnchor(links.itchUrl, "View on itch.io", "btn btn-small") : "";
+  const videoBtn = type === "embedded" ? safeAnchor(links.videoUrl, "Demo Video", "btn btn-small") : "";
+
+  let actions = "";
+  if (type === "web") actions = `${githubBtn}${liveSiteBtn}`;
+  else if (type === "unity") actions = `${githubBtn}${itchBtn}`;
+  else if (type === "embedded") actions = `${githubBtn}${videoBtn}`;
+  else if (type === "java") actions = `${githubBtn}`; // optional
+
+  const actionsBlock = actions.trim() ? `<div class="project-actions">${actions}</div>` : "";
+
+  const galleryHtml = screenshots.length
+    ? `
       <div class="gallery" aria-label="Project screenshot gallery">
-        ${p.screenshots.slice(0, 6).map((src, i) => `
-          <button class="thumb" type="button" data-project="${escapeHtml(p.id)}" data-index="${i}" aria-label="Open screenshot ${i + 1}">
-            <img src="${escapeHtml(src)}" alt="${escapeHtml(p.title)} screenshot ${i + 1}" loading="lazy" />
+        ${screenshots.slice(0, 6).map((src, i) => `
+          <button class="thumb"
+                  type="button"
+                  data-project="${escapeHtml(p.id)}"
+                  data-index="${i}"
+                  aria-label="Open screenshot ${i + 1}">
+            <img src="${escapeHtml(src)}"
+                 alt="${escapeHtml(p.title)} screenshot ${i + 1}"
+                 loading="lazy" />
           </button>
         `).join("")}
       </div>
     `
-      : `<p class="muted" style="margin-top:10px;">No screenshots added yet.</p>`;
+    : "";
 
   return `
     <article class="project" data-project-card="${escapeHtml(p.id)}">
       <h3>${escapeHtml(p.title)}</h3>
 
       <div class="tags">
-        ${p.tech.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
+        ${(p.tech || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
       </div>
 
-      <p>${escapeHtml(p.summary)}</p>
+      <p>${escapeHtml(p.summary || "")}</p>
 
       <ul>
-        ${p.bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}
+        ${(p.bullets || []).map((b) => `<li>${escapeHtml(b)}</li>`).join("")}
       </ul>
 
-      <div class="project-actions">
-        <a class="btn btn-small btn-ghost" href="${escapeHtml(p.links.github || "#")}" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="btn btn-small" href="${escapeHtml(p.links.demo || "#")}" target="_blank" rel="noreferrer">Live Demo</a>
-      </div>
-
+      ${actionsBlock}
       ${galleryHtml}
     </article>
   `;
@@ -556,8 +594,9 @@ function initProjectsUI() {
     const query = (searchInput?.value || "").trim().toLowerCase();
 
     const filtered = PROJECTS.filter((p) => {
-      const matchesFilter = filter === "all" ? true : p.category.includes(filter);
-      const haystack = `${p.title} ${p.summary} ${p.tech.join(" ")} ${p.bullets.join(" ")}`.toLowerCase();
+      const matchesFilter = filter === "all" ? true : (p.category || []).includes(filter);
+      const haystack = `${p.title} ${p.summary} ${(p.tech || []).join(" ")} ${(p.bullets || []).join(" ")}`
+        .toLowerCase();
       const matchesSearch = query ? haystack.includes(query) : true;
       return matchesFilter && matchesSearch;
     });
@@ -634,13 +673,16 @@ function renderLightbox() {
 
   if (lightboxThumbs) {
     lightboxThumbs.innerHTML = shots
-      .map(
-        (s, i) => `
-      <button class="modal-thumb ${i === lbIndex ? "active" : ""}" type="button" data-thumb="${i}" aria-label="Open screenshot ${i + 1}">
-        <img src="${escapeHtml(s)}" alt="${escapeHtml(lbProject.title)} thumbnail ${i + 1}" loading="lazy" />
-      </button>
-    `
-      )
+      .map((s, i) => `
+        <button class="modal-thumb ${i === lbIndex ? "active" : ""}"
+                type="button"
+                data-thumb="${i}"
+                aria-label="Open screenshot ${i + 1}">
+          <img src="${escapeHtml(s)}"
+               alt="${escapeHtml(lbProject.title)} thumbnail ${i + 1}"
+               loading="lazy" />
+        </button>
+      `)
       .join("");
 
     lightboxThumbs.querySelectorAll("[data-thumb]").forEach((btn) => {
@@ -679,11 +721,6 @@ btnNext?.addEventListener("click", () => {
   }
 });
 
-lightbox?.addEventListener("click", (e) => {
-  const t = e.target;
-  if (t && t.dataset && t.dataset.close === "true") closeLightbox();
-});
-
 document.addEventListener("keydown", (e) => {
   if (!lightbox?.classList.contains("open")) return;
   if (e.key === "Escape") closeLightbox();
@@ -703,7 +740,7 @@ const navMenu = document.getElementById("navMenu");
 
 navToggle?.addEventListener("click", () => {
   const isOpen = navMenu?.classList.toggle("open");
-  navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  navToggle?.setAttribute("aria-expanded", isOpen ? "true" : "false");
 });
 
 navMenu?.addEventListener("click", (e) => {

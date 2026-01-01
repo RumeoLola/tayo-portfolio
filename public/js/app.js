@@ -4,7 +4,7 @@
 
 const APP = document.getElementById("app");
 
-// ------------------------- CONTACT + RESUME -------------------------
+// ------------------------- CONTACT -------------------------
 const CONTACT = {
   email: "wasiuomololaz@email.com",
   linkedin: "https://www.linkedin.com/in/tayo-omolola/",
@@ -12,12 +12,11 @@ const CONTACT = {
   location: "Baltimore, MD",
 };
 
-// IMPORTANT: Your actual file name includes a space.
-// Keep the %20 encoding for the space:
-const RESUME_URL = ".assets/resume/Tayo%20Resume.pdf";
+// ------------------------- RESUME (NEW TAB, BULLETPROOF PATH) -------------------------
+const RESUME_PATH = "assets/resume/TayoResume.pdf"; // exact filename provided by you
+const RESUME_URL = new URL(RESUME_PATH, window.location.href).href;
 
 // ------------------------- CERTIFICATES -------------------------
-// FIX: encode spaces as %20 and + as %2B
 const CERTIFICATES = [
   {
     title: "CompTIA A+ Certificate",
@@ -46,9 +45,7 @@ const PROJECTS = [
       "Implemented immutable calculation logic for consistent results",
       "Supported multiple unit-conversion pathways accurately",
     ],
-    links: {
-      github: "#", // replace when ready
-    },
+    links: { github: "#" },
     screenshots: [
       "assets/img/projects/trip-cost/1.png",
       "assets/img/projects/trip-cost/2.png",
@@ -69,9 +66,10 @@ const PROJECTS = [
       "Focused on responsive layout and clear user flow",
     ],
     links: {
-      github: "#",  // replace when ready
-      liveUrl: "https://feran-1e4f4.web.app/#home", // put your deployed website link here
+      github: "#",
+      liveUrl: "https://feran-1e4f4.web.app/#home",
     },
+    screenshots: [], // optional
   },
   {
     id: "irrigation",
@@ -88,7 +86,7 @@ const PROJECTS = [
     ],
     links: {
       github: "https://github.com/RumeoLola/smart-garden",
-      videoUrl: "#", // put your demo video link here (YouTube or Drive view link)
+      videoUrl: "#",
     },
     screenshots: [
       "assets/img/projects/irrigation/1.png",
@@ -110,7 +108,7 @@ const PROJECTS = [
       "Improved debugging and iteration workflow inside an engine environment",
     ],
     links: {
-      github: "#", // optional
+      github: "#",
       itchUrl: "https://small-man-of-renown.itch.io/",
     },
     screenshots: [
@@ -159,6 +157,16 @@ function render() {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 
+// ------------------------- SMALL HELPER: Resume link (always new tab) -------------------------
+function resumeAnchor(label, cls = "btn btn-ghost") {
+  return `
+    <a class="${cls}"
+       href="${RESUME_URL}"
+       target="_blank"
+       rel="noopener noreferrer">${label}</a>
+  `;
+}
+
 // ------------------------- PAGES -------------------------
 function renderHome() {
   APP.innerHTML = `
@@ -173,7 +181,7 @@ function renderHome() {
           </p>
           <div class="hero-cta">
             <a class="btn" href="#/projects">View Projects</a>
-            <a class="btn btn-ghost" href="${RESUME_URL}" target="_blank" rel="noopener noreferrer">View Resume</a>
+            ${resumeAnchor("View Resume")}
             <a class="btn btn-ghost" href="#/contact">Contact</a>
           </div>
         </div>
@@ -202,7 +210,7 @@ function renderHome() {
           <p><strong>Availability:</strong> <span class="muted">Open to tech roles</span></p>
           <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
             <a class="btn btn-small" href="#/contact">Contact</a>
-            <a class="btn btn-small btn-ghost" href="${RESUME_URL}" target="_blank" rel="noopener noreferrer">View Resume</a>
+            ${resumeAnchor("View Resume", "btn btn-small btn-ghost")}
           </div>
         </div>
 
@@ -473,7 +481,7 @@ function renderContact() {
 
           <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
             <button class="btn btn-small" id="copyEmailBtn" type="button">Copy Email</button>
-            <a class="btn btn-small btn-ghost" href="${RESUME_URL}" target="_blank" rel="noopener noreferrer">View Resume</a>
+            ${resumeAnchor("View Resume", "btn btn-small btn-ghost")}
             <a class="btn btn-small btn-ghost" href="#/projects">View Projects</a>
           </div>
         </div>
@@ -719,6 +727,11 @@ btnNext?.addEventListener("click", () => {
     lbIndex++;
     renderLightbox();
   }
+});
+
+lightbox?.addEventListener("click", (e) => {
+  const t = e.target;
+  if (t && t.dataset && t.dataset.close === "true") closeLightbox();
 });
 
 document.addEventListener("keydown", (e) => {

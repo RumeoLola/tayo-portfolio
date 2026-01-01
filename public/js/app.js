@@ -176,8 +176,8 @@ function renderHome() {
           <p class="kicker">Computer Technician • CompTIA A+ • Computer Science Undergraduate (UMGC)</p>
           <h1 class="hero-title">Building reliable systems, practical tools, and clean user experiences.</h1>
           <p class="hero-sub">
-            I am an entry-level technology professional with hands-on experience in device support, troubleshooting, and software development.
-            This portfolio highlights applied projects in Java GUI development, web application design, and embedded automation, reflecting a strong foundation in technical fundamentals and real-world problem solving.
+          I am a technology professional with practical experience in IT support, software development, and systems integration.
+          This portfolio showcases projects spanning Java desktop applications, single-page web interfaces, and embedded automation, reflecting a focus on reliability, clean implementation, and effective technical solutions.
           </p>
           <div class="hero-cta">
             <a class="btn" href="#/projects">View Projects</a>
